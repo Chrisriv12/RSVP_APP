@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using RSVPApp.Services;
 
 namespace RSVP_APP
 {
@@ -17,6 +18,8 @@ namespace RSVP_APP
 
 #if DEBUG
     		builder.Logging.AddDebug();
+
+            builder.Services.AddSingleton<DatabaseService>();
 #endif
 
             return builder.Build();

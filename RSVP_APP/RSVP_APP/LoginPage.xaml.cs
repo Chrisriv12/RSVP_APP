@@ -1,40 +1,54 @@
-using System.Threading.Tasks;
+using RSVPApp.Services;
 
-namespace RSVP_APP;
-
+namespace RSVP_APP
+{
 public partial class LoginPage : ContentPage
 {
-	public static bool IsGuest = false;
-	public static string CurrentUser = "";
-	public LoginPage()
-	{
-		InitializeComponent();
-	}
+    DatabaseService _db;
 
-	private async Task OnLoginClicked(object sender, EventArgs e)
-	{
-		if (EmailEntry.Text == "user@example.com" && PasswordEntry.Text == "password123")
-		{
-			IsGuest = false;
-			CurrentUser = "John Doe";
-			await Shell.Current.GoToAsync("//DashboardPage");
-		}
-		else
-		{
-			await DisplayAlert("Login Failed", "Invalid email or password.", "OK");
-		}
-	}
+    public LoginPage()
+    {
+        InitializeComponent();
+        _db = (Application.Current as App).Services.GetService<DatabaseService>();
+        // or use: MauiApplication.Current.Services.GetService<DatabaseService>()
+    }
 
-	private async Task OnGuestClicked(object sender, EventArgs e)
-	{
-		IsGuest = true;
-		CurrentUser = "Guest";
-		await Shell.Current.GoToAsync("//DashboardPage");
-	}
+    private async void OnLoginClicked(object sender, EventArgs e)
+    {
+        string email = EmailEntry.Text?.Trim();
+        string pw = PasswordEntry.Text;
 
-	private async Task OnCreateClicked(object sender, EventArgs e)
-	{
-		// Navigate to the account creation page (not implemented in this example)
-		await Shell.Current.GoToAsync("//CreateAccountPage");
-	}
+        if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(pw))
+        {
+            await DisplayAlert("Error", "Enter email & password", "OK");
+            return;
+        }
+
+        var user = await _db.GetUserByEmailAsync(email);
+        if (user != null && user.Password == pw)
+        {
+            LoginState.IsGuest = false;
+            LoginState.CurrentUserId = user.Id;
+            LoginState.CurrentUserName = user.Name;
+            await Shell.Current.GoToAsync("//DashboardPage");
+        }
+        else
+        {
+            await DisplayAlert("Error", "Invalid credentials", "OK");
+        }
+    }
+
+    private async void OnGuestClicked(object sender, EventArgs e)
+    {
+        LoginState.IsGuest = true;
+        LoginState.CurrentUserName = "Guest";
+        await Shell.Current.GoToAsync("//DashboardPage");
+    }
+
+    private async void OnCreateClicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync("//CreateAccountPage");
+    }
 }
+}
+

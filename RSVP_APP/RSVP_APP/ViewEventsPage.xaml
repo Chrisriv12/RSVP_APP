@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RSVP_APP.NewPage1"
+             Title="NewPage1">
+    <VerticalStackLayout>
+        <Label Text="Events" FontSize="20" HorizontalOptions="Center" />
+        <HorizontalStackLayout Spacing="10">
+            <Button Text="All Events" Clicked="OnAllClicked" />
+            <Button Text="Attending" Clicked="OnAttendingClicked" />
+            <Button Text="Hosting" Clicked="OnHostingClicked" />
+        </HorizontalStackLayout>
+
+        <CollectionView x:Name="EventsList" SelectionMode="Single" SelectionChanged="OnEventSelected">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border Padding="10" Margin="5" BorderColor="LightGray">
+                        <Label Text="{Binding Name}" />
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Button Text="Back to Dashboard" Clicked="OnBackClicked" />
+    </VerticalStackLayout>
+</ContentPage>
