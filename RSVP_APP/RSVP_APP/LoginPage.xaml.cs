@@ -1,26 +1,29 @@
+using Microsoft.Extensions.DependencyInjection;
+using RSVP_APP.Helpers;
+using RSVPApp.Helpers;
 using RSVPApp.Services;
+using static System.Net.Mime.MediaTypeNames;
 
-namespace RSVP_APP
-{
+namespace RSVPApp;
+
 public partial class LoginPage : ContentPage
 {
-    DatabaseService _db;
+    private readonly DatabaseService _db;
 
     public LoginPage()
     {
         InitializeComponent();
         _db = (Application.Current as App).Services.GetService<DatabaseService>();
-        // or use: MauiApplication.Current.Services.GetService<DatabaseService>()
     }
 
     private async void OnLoginClicked(object sender, EventArgs e)
     {
-        string email = EmailEntry.Text?.Trim();
-        string pw = PasswordEntry.Text;
+        var email = EmailEntry.Text?.Trim();
+        var pw = PasswordEntry.Text;
 
         if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(pw))
         {
-            await DisplayAlert("Error", "Enter email & password", "OK");
+            await DisplayAlert("Error", "Please enter email and password", "OK");
             return;
         }
 
@@ -30,6 +33,7 @@ public partial class LoginPage : ContentPage
             LoginState.IsGuest = false;
             LoginState.CurrentUserId = user.Id;
             LoginState.CurrentUserName = user.Name;
+
             await Shell.Current.GoToAsync("//DashboardPage");
         }
         else
@@ -41,7 +45,9 @@ public partial class LoginPage : ContentPage
     private async void OnGuestClicked(object sender, EventArgs e)
     {
         LoginState.IsGuest = true;
+        LoginState.CurrentUserId = 0;
         LoginState.CurrentUserName = "Guest";
+
         await Shell.Current.GoToAsync("//DashboardPage");
     }
 
@@ -50,5 +56,3 @@ public partial class LoginPage : ContentPage
         await Shell.Current.GoToAsync("//CreateAccountPage");
     }
 }
-}
-

@@ -1,52 +1,48 @@
-using RSVPApp.Helpers;
 using RSVPApp.Models;
 using RSVPApp.Services;
-using System.Formats.Tar;
-using System.Net;
+using RSVPApp.Helpers;
 
-namespace RSVPApp.Views
+namespace RSVPApp;
+
+public partial class AddEventPage : ContentPage
 {
-    public partial class AddEventPage : ContentPage
+    private readonly DatabaseService _db;
+
+    public AddEventPage()
     {
-        DatabaseService _db;
+        InitializeComponent();
+        _db = (Application.Current as App).Services.GetService<DatabaseService>();
+        HostEntry.Text = LoginState.CurrentUserName;
+    }
 
-        public AddEventPage()
+    private async void OnSaveClicked(object sender, EventArgs e)
+    {
+        if (string.IsNullOrWhiteSpace(NameEntry.Text) ||
+            string.IsNullOrWhiteSpace(AddressEntry.Text) ||
+            string.IsNullOrWhiteSpace(MaxEntry.Text) ||
+            !int.TryParse(MaxEntry.Text, out int max))
         {
-            InitializeComponent();
-            _db = (Application.Current as App).Services.GetService<DatabaseService>();
-            HostEntry.Text = LoginState.IsGuest ? "Guest" : LoginState.CurrentUserName;
+            await DisplayAlert("Error", "All fields are required", "OK");
+            return;
         }
 
-        private async void OnSaveClicked(object sender, EventArgs e)
+        var ev = new EventModel
         {
-            if (string.IsNullOrWhiteSpace(NameEntry.Text) ||
-                string.IsNullOrWhiteSpace(AddressEntry.Text) ||
-                string.IsNullOrWhiteSpace(MaxEntry.Text) ||
-                !int.TryParse(MaxEntry.Text, out int max))
-            {
-                await DisplayAlert("Error", "All fields must be filled and Max must be number", "OK");
-                return;
-            }
+            HostUserId = LoginState.CurrentUserId,
+            Name = NameEntry.Text.Trim(),
+            Address = AddressEntry.Text.Trim(),
+            MaxAttendees = max,
+            EventDate = DateEntry.Date,
+            RsvpDeadline = DeadlineEntry.Date
+        };
 
-            var ev = new EventModel
-            {
-                HostUserId = LoginState.IsGuest ? 0 : LoginState.CurrentUserId,
-                Name = NameEntry.Text.Trim(),
-                Address = AddressEntry.Text.Trim(),
-                MaxAttendees = max,
-                EventDate = DateEntry.Date,
-                RsvpDeadline = DeadlineEntry.Date
-            };
+        await _db.AddEventAsync(ev);
+        await DisplayAlert("Success", "Event created!", "OK");
+        await Shell.Current.GoToAsync("//DashboardPage");
+    }
 
-            await _db.AddEventAsync(ev);
-            await DisplayAlert("Success", "Event saved", "OK");
-            await Shell.Current.GoToAsync("//DashboardPage");
-        }
-
-        private async void OnCancelClicked(object sender, EventArgs e)
-        {
-            await Shell.Current.GoToAsync("//DashboardPage");
-        }
+    private async void OnCancelClicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync("//DashboardPage");
     }
 }
-

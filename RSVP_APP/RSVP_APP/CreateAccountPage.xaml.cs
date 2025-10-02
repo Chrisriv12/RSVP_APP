@@ -1,33 +1,52 @@
-using System.Threading.Tasks;
+using RSVPApp.Models;
+using RSVPApp.Services;
+using static System.Net.Mime.MediaTypeNames;
 
-namespace RSVP_APP;
+namespace RSVPApp;
 
 public partial class CreateAccountPage : ContentPage
 {
-	public CreateAccountPage()
-	{
-		InitializeComponent();
-	}
+    private readonly DatabaseService _db;
 
-	private async Task OnCreateClicked(object sender, EventArgs e)
-	{
-		if (string.IsNullOrWhiteSpace(NameEntry.Text) ||
-			string.IsNullOrWhiteSpace(EmailEntry.Text) ||
-			string.IsNullOrWhiteSpace(PasswordEntry.Text) ||
-			string.IsNullOrWhiteSpace(PhoneEntry.Text))
-
-		{
-			await DisplayAlert("Error", "All fields must be filled", "OK");
-			return;
-		}
-
-		await DisplayAlert("Success", "Account Created!", "OK");
-		await Shell.Current.GoToAsync("//LoginPage");
-	}
-
-	private async Task OnCancelClicked(object sender, EventArgs e)
-	{
-		await Shell.Current.GoToAsync("//LoginPage");
+    public CreateAccountPage()
+    {
+        InitializeComponent();
+        _db = (Application.Current as App).Services.GetService<DatabaseService>();
     }
 
+    private async void OnCreateClicked(object sender, EventArgs e)
+    {
+        if (string.IsNullOrWhiteSpace(NameEntry.Text) ||
+            string.IsNullOrWhiteSpace(EmailEntry.Text) ||
+            string.IsNullOrWhiteSpace(PasswordEntry.Text) ||
+            string.IsNullOrWhiteSpace(PhoneEntry.Text))
+        {
+            await DisplayAlert("Error", "All fields are required", "OK");
+            return;
+        }
+
+        var existing = await _db.GetUserByEmailAsync(EmailEntry.Text.Trim());
+        if (existing != null)
+        {
+            await DisplayAlert("Error", "Email already registered", "OK");
+            return;
+        }
+
+        var user = new User
+        {
+            Name = NameEntry.Text.Trim(),
+            Email = EmailEntry.Text.Trim(),
+            Password = PasswordEntry.Text,
+            Phone = PhoneEntry.Text.Trim()
+        };
+
+        await _db.AddUserAsync(user);
+        await DisplayAlert("Success", "Account created!", "OK");
+        await Shell.Current.GoToAsync("//LoginPage");
     }
+
+    private async void OnCancelClicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync("//LoginPage");
+    }
+}

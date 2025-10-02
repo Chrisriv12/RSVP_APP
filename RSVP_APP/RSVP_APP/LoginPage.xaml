@@ -1,26 +1,16 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="RSVP_APP.LoginPage"
-             Title="NewPage1">
+             x:Class="RSVPApp.LoginPage"
+             Title="Login">
+
     <VerticalStackLayout Padding="30" Spacing="15">
-        <Entry x:Name="EmailEntry" 
-               Placeholder="Email" />
+        <Label Text="Login to RSVP App" FontSize="20" HorizontalOptions="Center" />
 
-        <Entry
-            x:Name="PasswordEntry"
-            Placeholder="Password"
-            IsPassword="True" />
-        <Button
-            Text="Login"
-            Clicked="OnloginClicked" />
+        <Entry x:Name="EmailEntry" Placeholder="Email" Keyboard="Email" />
+        <Entry x:Name="PasswordEntry" Placeholder="Password" IsPassword="True" />
 
-        <Button
-            Text="Continue as Guest" 
-            Clicked="OnGuestClicked"/>
-
-        <Button
-            Text="Create Account"
-            Clicked="OnCreateClicked"/>
+        <Button Text="Login" Clicked="OnLoginClicked" />
+        <Button Text="Continue as Guest" Clicked="OnGuestClicked" />
+        <Button Text="Create Account" Clicked="OnCreateClicked" />
     </VerticalStackLayout>
 </ContentPage>
