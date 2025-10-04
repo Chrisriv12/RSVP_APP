@@ -1,6 +1,6 @@
-using RSVPApp.Models;
-using RSVPApp.Services;
-using RSVPApp.Helpers;
+using RSVP_APP.Models;
+using RSVP_APP.Services;
+using RSVP_APP.Helpers;
 
 namespace RSVPApp;
 
@@ -29,7 +29,7 @@ public partial class AddEventPage : ContentPage
         var ev = new EventModel
         {
             HostUserId = LoginState.CurrentUserId,
-            Name = NameEntry.Text.Trim(),
+            EventName = NameEntry.Text.Trim(),
             Address = AddressEntry.Text.Trim(),
             MaxAttendees = max,
             EventDate = DateEntry.Date,

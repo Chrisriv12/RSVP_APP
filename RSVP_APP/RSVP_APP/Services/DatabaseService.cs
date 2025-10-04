@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RSVPApp.Services
+namespace RSVP_APP.Services
 {
     public class DatabaseService
 {
