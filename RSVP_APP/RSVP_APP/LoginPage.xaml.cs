@@ -1,10 +1,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using RSVP_APP.Helpers;
-using RSVPApp.Helpers;
-using RSVPApp.Services;
-using static System.Net.Mime.MediaTypeNames;
+using RSVP_APP.Services;
 
-namespace RSVPApp;
+namespace RSVP_APP;
 
 public partial class LoginPage : ContentPage
 {

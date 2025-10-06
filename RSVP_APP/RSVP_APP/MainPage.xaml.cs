@@ -1,24 +1,26 @@
-﻿namespace RSVP_APP
+﻿using Microsoft.Maui.Controls;
+using RSVP_APP.Helpers;
+
+namespace RSVP_APP;
+
+public partial class MainPage : ContentPage
 {
-    public partial class MainPage : ContentPage
+    public MainPage()
     {
-        int count = 0;
+        InitializeComponent();
+    }
 
-        public MainPage()
-        {
-            InitializeComponent();
-        }
+    private async void OnLoginClicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync("LoginPage");
+    }
 
-        private void OnCounterClicked(object? sender, EventArgs e)
-        {
-            count++;
+    private async void OnGuestClicked(object sender, EventArgs e)
+    {
+        LoginState.IsGuest = true;
+        LoginState.CurrentUserId = 0;
+        LoginState.CurrentUserName = "Guest";
 
-            if (count == 1)
-                CounterBtn.Text = $"Clicked {count} time";
-            else
-                CounterBtn.Text = $"Clicked {count} times";
-
-            SemanticScreenReader.Announce(CounterBtn.Text);
-        }
+        await Shell.Current.GoToAsync("//DashboardPage");
     }
 }

@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
-using RSVPApp.Services;
+using RSVP_APP.Services;
 
 namespace RSVP_APP
 {
@@ -8,6 +8,7 @@ namespace RSVP_APP
         public static MauiApp CreateMauiApp()
         {
             var builder = MauiApp.CreateBuilder();
+
             builder
                 .UseMauiApp<App>()
                 .ConfigureFonts(fonts =>
@@ -17,10 +18,20 @@ namespace RSVP_APP
                 });
 
 #if DEBUG
-    		builder.Logging.AddDebug();
-
-            builder.Services.AddSingleton<DatabaseService>();
+            builder.Logging.AddDebug();
 #endif
+
+            // Register services
+            builder.Services.AddSingleton<DatabaseService>();
+
+            // Register pages for DI
+            builder.Services.AddSingleton<AppShell>();
+            builder.Services.AddSingleton<MainPage>();
+            builder.Services.AddSingleton<LoginPage>();
+            builder.Services.AddSingleton<DashboardPage>();
+            builder.Services.AddSingleton<AddEventPage>();
+            builder.Services.AddSingleton<CreateAccountPage>();
+            builder.Services.AddSingleton<ViewEventsPage>();
 
             return builder.Build();
         }

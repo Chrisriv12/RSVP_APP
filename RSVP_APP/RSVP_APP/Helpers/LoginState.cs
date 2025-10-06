@@ -10,6 +10,6 @@ namespace RSVP_APP.Helpers
     {
         public static bool IsGuest { get; set; } = true;
         public static int CurrentUserId { get; set; } = -1;
-        public static string CurrentUserName { get; set; } = "Guest";
+        public static string CurrentUserName { get; set; } = string.Empty;
     }
 }

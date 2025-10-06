@@ -1,7 +1,8 @@
-using RSVPApp.Services;
-using RSVPApp.Helpers;
+using RSVP_APP.Services;
+using RSVP_APP.Helpers;
+using RSVP_APP.Models;
 
-namespace RSVPApp;
+namespace RSVP_APP;
 
 public partial class ViewEventsPage : ContentPage
 {

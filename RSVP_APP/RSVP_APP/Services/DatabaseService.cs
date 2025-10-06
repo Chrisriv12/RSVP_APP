@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RSVP_APP.Models;
+
 
 namespace RSVP_APP.Services
 {
@@ -72,7 +74,7 @@ namespace RSVP_APP.Services
 
     public Task<Rsvp> GetUserRsvpForEventAsync(int eventId, int userId) =>
         _db.Table<Rsvp>()
-           .Where(r => r.EventId == eventId && r.UserId == userId)
+           .Where(r => r.EventId == eventId && r.Id == userId)
            .FirstOrDefaultAsync();
 }
 }

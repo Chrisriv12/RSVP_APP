@@ -1,9 +1,10 @@
-using RSVPApp.Models;
-using RSVPApp.Services;
-using RSVPApp.Helpers;
+using RSVP_APP.Models;
+using RSVP_APP.Services;
+using RSVP_APP.Helpers;
 
-namespace RSVPApp;
+namespace RSVP_APP;
 
+[QueryProperty(nameof(EventId), "EventId")]
 public partial class RSVPPage : ContentPage
 {
     private readonly DatabaseService _db;
@@ -65,9 +66,9 @@ public partial class RSVPPage : ContentPage
         var rsvp = new Rsvp
         {
             EventId = ev.Id,
-            UserId = LoginState.IsGuest ? 0 : LoginState.CurrentUserId,
-            Name = NameEntry.Text?.Trim(),
-            Email = EmailEntry.Text?.Trim()
+            Id = LoginState.IsGuest ? 0 : LoginState.CurrentUserId,
+            EventName = NameEntry.Text?.Trim(),
+            EventEmail = EmailEntry.Text?.Trim()
         };
 
         await _db.AddRsvpAsync(rsvp);

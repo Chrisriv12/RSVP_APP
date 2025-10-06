@@ -1,8 +1,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="RSVPApp.RSVPPage"
-             Title="RSVP"
-             QueryProperty="EventId" PropertyType="int">
+             x:Class="RSVP_APP.RSVPPage"
+             Title="RSVP">
 
     <VerticalStackLayout Padding="30" Spacing="15">
         <Label Text="RSVP for Event" FontSize="22" HorizontalOptions="Center" />

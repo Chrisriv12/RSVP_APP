@@ -2,7 +2,7 @@ using RSVP_APP.Models;
 using RSVP_APP.Services;
 using RSVP_APP.Helpers;
 
-namespace RSVPApp;
+namespace RSVP_APP;
 
 public partial class AddEventPage : ContentPage
 {
@@ -26,7 +26,7 @@ public partial class AddEventPage : ContentPage
             return;
         }
 
-        var ev = new EventModel
+        var ev = new RSVP_APP.Models.EventModel
         {
             HostUserId = LoginState.CurrentUserId,
             EventName = NameEntry.Text.Trim(),

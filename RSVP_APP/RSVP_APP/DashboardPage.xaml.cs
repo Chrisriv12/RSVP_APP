@@ -1,7 +1,6 @@
 using RSVP_APP.Helpers;
-using RSVPApp.Helpers;
 
-namespace RSVPApp;
+namespace RSVP_APP;
 
 public partial class DashboardPage : ContentPage
 {
@@ -17,11 +16,11 @@ public partial class DashboardPage : ContentPage
     }
 
     private async void OnAddEventClicked(object sender, EventArgs e) =>
-        await Shell.Current.GoToAsync("//AddEventPage");
+        await Shell.Current.GoToAsync("AddEventPage");
 
     private async void OnViewEventsClicked(object sender, EventArgs e) =>
-        await Shell.Current.GoToAsync("//ViewEventsPage");
+        await Shell.Current.GoToAsync("ViewEventsPage");
 
     private async void OnLogoutClicked(object sender, EventArgs e) =>
-        await Shell.Current.GoToAsync("//LoginPage");
+        await Shell.Current.GoToAsync("LoginPage");
 }
